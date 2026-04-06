@@ -1,0 +1,181 @@
+/* Analytics Styles */
+.analytics-page {
+  animation: fadeIn 0.4s ease;
+}
+
+.analytics-header {
+  margin-bottom: var(--space-6);
+}
+
+.analytics-header h2 {
+  margin-bottom: var(--space-2);
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.stat-card {
+  text-align: center;
+  padding: var(--space-5);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-2);
+}
+
+.stat-value {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-unit {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-left: var(--space-1);
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: var(--space-6);
+}
+
+.analytics-card {
+  padding: var(--space-6);
+}
+
+.analytics-card h4 {
+  margin-bottom: var(--space-5);
+}
+
+.empty-chart {
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-md);
+}
+
+/* Lifestyle Page Styles */
+.lifestyle-page {
+  animation: fadeIn 0.4s ease;
+}
+
+.lifestyle-header {
+  margin-bottom: var(--space-6);
+}
+
+.phase-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-8);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-8);
+  position: relative;
+  overflow: hidden;
+}
+
+.phase-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-glass);
+  border-radius: var(--radius-xl);
+}
+
+.phase-emoji-lg {
+  font-size: 3.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.phase-banner-info {
+  position: relative;
+  z-index: 1;
+}
+
+.phase-banner-info h3 {
+  font-size: 1.375rem;
+  margin-bottom: var(--space-2);
+}
+
+.phase-banner-info p {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.rec-section {
+  margin-bottom: var(--space-8);
+}
+
+.rec-section h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-size: 1.125rem;
+}
+
+.rec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+
+.rec-card {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.rec-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.rec-card h4 {
+  font-size: 0.9375rem;
+  margin-bottom: var(--space-1);
+}
+
+.rec-card p {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .phase-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--space-6);
+  }
+
+  .rec-grid {
+    grid-template-columns: 1fr;
+  }
+}

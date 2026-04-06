@@ -1,0 +1,233 @@
+/* Daily Logger Styles */
+.daily-logger {
+  animation: fadeIn 0.4s ease;
+}
+
+.logger-header {
+  margin-bottom: var(--space-8);
+}
+
+.logger-header h2 {
+  margin-bottom: var(--space-2);
+}
+
+.logger-header p {
+  color: var(--text-muted);
+}
+
+.logger-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.log-section {
+  padding: var(--space-5);
+}
+
+.log-section h4 {
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Status Options */
+.status-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+.status-btn {
+  padding: var(--space-3);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.8125rem;
+  transition: all var(--transition-fast);
+}
+
+.status-btn.active {
+  background: rgba(139, 30, 255, 0.15);
+  border-color: var(--primary-500);
+  color: var(--primary-300);
+}
+
+.status-btn:hover {
+  border-color: var(--border-accent);
+}
+
+/* Mood Grid */
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: var(--space-2);
+}
+
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-2);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mood-btn.active {
+  background: rgba(139, 30, 255, 0.15);
+  border-color: var(--primary-500);
+  transform: scale(1.05);
+}
+
+.mood-emoji { font-size: 1.5rem; }
+.mood-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.mood-btn.active .mood-label {
+  color: var(--primary-300);
+}
+
+/* Range Slider */
+.range-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-tertiary);
+  outline: none;
+  margin: var(--space-3) 0;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.slider-value {
+  font-size: 0.8rem;
+  color: var(--primary-400);
+  margin-left: auto;
+}
+
+/* Flow Options */
+.flow-options {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.flow-btn {
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.8125rem;
+  transition: all var(--transition-fast);
+}
+
+.flow-btn.active {
+  background: color-mix(in srgb, var(--flow-color) 20%, transparent);
+  border-color: var(--flow-color);
+  color: var(--flow-color);
+}
+
+/* Lifestyle */
+.lifestyle-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.lifestyle-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.lifestyle-item label {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.input-sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+}
+
+/* Symptoms */
+.symptom-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.symptom-btn {
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  transition: all var(--transition-fast);
+}
+
+.symptom-btn.active {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: var(--accent-500);
+  color: var(--accent-400);
+}
+
+/* Notes */
+.notes-input {
+  width: 100%;
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Save Button */
+.save-btn {
+  margin-top: var(--space-4);
+  font-size: 1.05rem;
+  padding: var(--space-5) var(--space-8);
+}
+
+@media (max-width: 768px) {
+  .logger-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .lifestyle-inputs {
+    grid-template-columns: 1fr;
+  }
+}
