@@ -24,10 +24,13 @@ class TrainModelView(APIView):
     """Trigger model training for the current user."""
     
     def post(self, request):
-        success = train_user_model(request.user)
+        result = train_user_model(request.user)
         
-        if success:
-            return Response({'message': 'Model trained successfully!'})
+        if result:
+            return Response({
+                'message': 'Ensemble model trained successfully!',
+                'training_results': result,
+            })
         
         return Response(
             {'message': 'Not enough data to train. Need at least 3 cycles.'},

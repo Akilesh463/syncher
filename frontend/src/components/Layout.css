@@ -121,7 +121,7 @@
 }
 
 .nav-item.active {
-  background: rgba(139, 30, 255, 0.15);
+  background: rgba(232, 93, 117, 0.15);
   color: var(--primary-300);
   border-left: 3px solid var(--primary-500);
 }
@@ -211,9 +211,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-8);
-  background: rgba(10, 10, 18, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 250, 251, 0.85);
   border-bottom: 1px solid var(--border-subtle);
   z-index: 50;
 }
@@ -275,3 +273,5 @@
     padding: var(--space-4);
   }
 }
+
+

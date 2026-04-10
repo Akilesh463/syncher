@@ -43,6 +43,17 @@ export default function Dashboard() {
     }
   };
 
+  const handleTrainModel = async () => {
+    try {
+      const res = await predictionAPI.trainModel();
+      alert(res.data.message);
+      // Reload to get new model predictions
+      loadDashboard();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error training model');
+    }
+  };
+
   if (loading) {
     return (
       <div className="dashboard">
@@ -134,11 +145,27 @@ export default function Dashboard() {
 
         {/* Period Countdown */}
         <motion.div className="dash-card countdown-card" variants={itemVariants}>
-          <div className="card-header">
-            <h4>Next Period</h4>
-            <span className="badge">
-              {pred.confidence_score ? `${Math.round(pred.confidence_score * 100)}% confidence` : '—'}
-            </span>
+          <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <h4>Next Period</h4>
+              <span className="badge">
+                {pred.confidence_score ? `${Math.round(pred.confidence_score * 100)}% confidence` : '—'}
+              </span>
+            </div>
+            <button 
+              onClick={handleTrainModel}
+              style={{
+                background: 'var(--primary-500)',
+                color: 'white',
+                border: 'none',
+                padding: '0.4rem 0.8rem',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '0.85rem'
+              }}
+            >
+              Train AI Model
+            </button>
           </div>
           <div className="countdown-display">
             <span className="countdown-number">

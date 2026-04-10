@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 @import './variables.css';
 
 /* Reset & Base */
@@ -24,7 +24,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Background Pattern */
+/* Background Pattern - Soft Blush/Peach Orbs */
 body::before {
   content: '';
   position: fixed;
@@ -33,9 +33,9 @@ body::before {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(ellipse at 20% 20%, rgba(139, 30, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(244, 63, 94, 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(139, 30, 255, 0.03) 0%, transparent 60%);
+    radial-gradient(ellipse at 20% 20%, rgba(232, 93, 117, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(248, 123, 100, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(253, 164, 175, 0.03) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -54,35 +54,37 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
 }
 
-h1 { font-size: 2.25rem; }
-h2 { font-size: 1.75rem; }
+h1 { font-size: 2.25rem; letter-spacing: -0.02em; }
+h2 { font-size: 1.75rem; letter-spacing: -0.01em; }
 h3 { font-size: 1.375rem; }
 h4 { font-size: 1.125rem; }
 
 p { color: var(--text-secondary); }
 
 a {
-  color: var(--primary-400);
+  color: var(--primary-500);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
-a:hover { color: var(--primary-300); }
+a:hover { color: var(--primary-400); }
 
 /* Glass Card */
 .glass-card {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--bg-glass-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   padding: var(--space-6);
   transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
 }
 
 .glass-card:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-accent);
   box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
 }
 
 /* Buttons */
@@ -94,9 +96,9 @@ a:hover { color: var(--primary-300); }
   padding: var(--space-3) var(--space-6);
   font-family: var(--font-heading);
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full); /* softer buttons */
   cursor: pointer;
   transition: all var(--transition-base);
   position: relative;
@@ -107,7 +109,7 @@ a:hover { color: var(--primary-300); }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
   opacity: 0;
   transition: opacity var(--transition-base);
 }
@@ -117,23 +119,24 @@ a:hover { color: var(--primary-300); }
 .btn-primary {
   background: var(--gradient-primary);
   color: white;
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-glow-strong);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
   background: var(--bg-tertiary);
-  color: var(--text-primary);
+  color: var(--primary-700);
   border: 1px solid var(--border-default);
 }
 
 .btn-secondary:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-accent);
+  background: var(--primary-50);
+  border-color: var(--primary-200);
+  color: var(--primary-800);
 }
 
 .btn-ghost {
@@ -143,18 +146,18 @@ a:hover { color: var(--primary-300); }
 
 .btn-ghost:hover {
   background: var(--bg-glass);
-  color: var(--text-primary);
+  color: var(--primary-500);
 }
 
 .btn-lg {
   padding: var(--space-4) var(--space-8);
   font-size: 1rem;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-full);
 }
 
 .btn-sm {
   padding: var(--space-2) var(--space-4);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
 }
 
 .btn-full { width: 100%; }
@@ -163,6 +166,7 @@ a:hover { color: var(--primary-300); }
   opacity: 0.5;
   cursor: not-allowed;
   transform: none !important;
+  box-shadow: none !important;
 }
 
 /* Input */
@@ -174,7 +178,7 @@ a:hover { color: var(--primary-300); }
 
 .input-group label {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-secondary);
 }
 
@@ -188,11 +192,12 @@ a:hover { color: var(--primary-300); }
   font-size: 0.9375rem;
   transition: all var(--transition-base);
   outline: none;
+  box-shadow: inset 0 2px 4px rgba(232, 93, 117, 0.02);
 }
 
 .input-field:focus {
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgba(139, 30, 255, 0.15);
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(232, 93, 117, 0.15), inset 0 2px 4px rgba(232, 93, 117, 0.02);
 }
 
 .input-field::placeholder {
@@ -204,31 +209,31 @@ a:hover { color: var(--primary-300); }
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  padding: var(--space-1) var(--space-3);
+  padding: 4px 10px;
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: var(--radius-full);
-  background: var(--bg-glass);
-  color: var(--primary-300);
-  border: 1px solid var(--bg-glass-border);
+  background: var(--primary-50);
+  color: var(--primary-600);
+  border: 1px solid var(--primary-200);
 }
 
 .badge-success {
-  background: rgba(34, 197, 94, 0.15);
-  color: var(--success-400);
-  border-color: rgba(34, 197, 94, 0.2);
+  background: rgba(134, 239, 172, 0.2);
+  color: var(--success-500);
+  border-color: rgba(134, 239, 172, 0.4);
 }
 
 .badge-warning {
-  background: rgba(245, 158, 11, 0.15);
-  color: var(--warning-400);
-  border-color: rgba(245, 158, 11, 0.2);
+  background: rgba(253, 224, 71, 0.2);
+  color: var(--warning-500);
+  border-color: rgba(253, 224, 71, 0.4);
 }
 
 .badge-danger {
-  background: rgba(239, 68, 68, 0.15);
-  color: var(--danger-400);
-  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(251, 113, 133, 0.15);
+  color: var(--danger-500);
+  border-color: rgba(251, 113, 133, 0.3);
 }
 
 /* Phase badges */
@@ -240,21 +245,22 @@ a:hover { color: var(--primary-300); }
 .phase-badge {
   background: rgba(var(--phase-color), 0.15);
   color: var(--phase-color);
-  border: 1px solid var(--phase-color);
-  padding: var(--space-1) var(--space-3);
+  border: 1px solid rgba(var(--phase-color), 0.3);
+  padding: 4px 12px;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-tertiary); }
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-800);
-  border-radius: 3px;
+  background: var(--primary-200);
+  border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--primary-600); }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-300); }
 
 /* Animations */
 @keyframes fadeIn {
@@ -268,8 +274,8 @@ a:hover { color: var(--primary-300); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 15px rgba(139, 30, 255, 0.2); }
-  50% { box-shadow: 0 0 30px rgba(139, 30, 255, 0.4); }
+  0%, 100% { box-shadow: 0 0 15px rgba(232, 93, 117, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(232, 93, 117, 0.4); }
 }
 
 @keyframes float {
@@ -290,7 +296,7 @@ a:hover { color: var(--primary-300); }
 
 .glow-border {
   border: 1px solid var(--border-accent);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Loading Skeleton */
@@ -298,11 +304,11 @@ a:hover { color: var(--primary-300); }
   background: linear-gradient(
     90deg,
     var(--bg-tertiary) 25%,
-    var(--bg-card-hover) 50%,
+    var(--primary-50) 50%,
     var(--bg-tertiary) 75%
   );
   background-size: 200% 100%;
-  animation: skeleton-loading 1.5s infinite;
+  animation: skeleton-loading 2s infinite ease-in-out;
   border-radius: var(--radius-md);
 }
 

@@ -1,78 +1,78 @@
 /* SYNCHER Design System — Variables */
 
 :root {
-  /* Primary Palette — Deep Purple/Violet Health Theme */
-  --primary-50: #f3e8ff;
-  --primary-100: #e4c6ff;
-  --primary-200: #c98bff;
-  --primary-300: #b15dff;
-  --primary-400: #9b3aff;
-  --primary-500: #8b1eff;
-  --primary-600: #7c18e6;
-  --primary-700: #6311b8;
-  --primary-800: #4a0d8a;
-  --primary-900: #31085c;
+  /* Primary Palette — Soft Rose / Blush */
+  --primary-50: #fff0f3;
+  --primary-100: #ffe4e8;
+  --primary-200: #fecdd6;
+  --primary-300: #fda4af;
+  --primary-400: #fb7185;
+  --primary-500: #e85d75; /* A soft, warm rose */
+  --primary-600: #d43b5e;
+  --primary-700: #b52a4a;
+  --primary-800: #992440;
+  --primary-900: #881337;
 
-  /* Accent — Warm Rose */
-  --accent-400: #fb7185;
-  --accent-500: #f43f5e;
-  --accent-600: #e11d48;
+  /* Accent — Soft Peach / Coral */
+  --accent-400: #ff9f87;
+  --accent-500: #f87b64;
+  --accent-600: #e05e46;
 
-  /* Success — Mint Green */
-  --success-400: #4ade80;
-  --success-500: #22c55e;
+  /* Success — Soft Sage Green */
+  --success-400: #86efac;
+  --success-500: #5db07f; /* softer sage */
 
-  /* Warning — Amber */
-  --warning-400: #fbbf24;
-  --warning-500: #f59e0b;
+  /* Warning — Warn Gold / Sand */
+  --warning-400: #fde047;
+  --warning-500: #eab308;
 
-  /* Danger — Red */
-  --danger-400: #f87171;
-  --danger-500: #ef4444;
+  /* Danger — Rose Red */
+  --danger-400: #fb7185;
+  --danger-500: #e11d48;
 
-  /* Surface Colors — Dark Theme */
-  --bg-primary: #0a0a12;
-  --bg-secondary: #12121f;
-  --bg-tertiary: #1a1a2e;
-  --bg-card: rgba(26, 26, 46, 0.7);
-  --bg-card-hover: rgba(36, 36, 60, 0.8);
-  --bg-glass: rgba(139, 30, 255, 0.08);
-  --bg-glass-border: rgba(139, 30, 255, 0.15);
+  /* Surface Colors — Clean, Soft Light Theme */
+  --bg-primary: #fffafb;      /* Very soft blush white */
+  --bg-secondary: #ffffff;    /* Pure white for cards */
+  --bg-tertiary: #fdf2f4;     /* Slightly darker blush for active states/sidebars */
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-card-hover: rgba(255, 255, 255, 1);
+  --bg-glass: rgba(232, 93, 117, 0.06);
+  --bg-glass-border: rgba(232, 93, 117, 0.15);
 
-  /* Text */
-  --text-primary: #f0eef6;
-  --text-secondary: #a8a3b8;
-  --text-muted: #6b6580;
-  --text-inverse: #0a0a12;
+  /* Text - Elegant deep tones instead of harsh black */
+  --text-primary: #2d2633;    /* Deep eggplant/charcoal */
+  --text-secondary: #5f5668;  /* Softer plum-gray */
+  --text-muted: #9c95a6;
+  --text-inverse: #ffffff;
 
   /* Borders */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-default: rgba(255, 255, 255, 0.1);
-  --border-accent: rgba(139, 30, 255, 0.3);
+  --border-subtle: rgba(232, 93, 117, 0.1);
+  --border-default: rgba(232, 93, 117, 0.2);
+  --border-accent: rgba(232, 93, 117, 0.4);
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px rgba(139, 30, 255, 0.15);
-  --shadow-glow-strong: 0 0 40px rgba(139, 30, 255, 0.25);
+  /* Shadows - Soft, glowing tinted shadows */
+  --shadow-sm: 0 4px 10px rgba(232, 93, 117, 0.04);
+  --shadow-md: 0 8px 24px rgba(232, 93, 117, 0.08);
+  --shadow-lg: 0 16px 40px rgba(232, 93, 117, 0.12);
+  --shadow-glow: 0 0 20px rgba(232, 93, 117, 0.15);
+  --shadow-glow-strong: 0 0 40px rgba(232, 93, 117, 0.3);
 
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #8b1eff 0%, #f43f5e 100%);
-  --gradient-surface: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(18, 18, 31, 0.9) 100%);
-  --gradient-purple: linear-gradient(135deg, #7c18e6 0%, #b15dff 100%);
-  --gradient-rose: linear-gradient(135deg, #e11d48 0%, #fb7185 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(139, 30, 255, 0.1) 0%, rgba(244, 63, 94, 0.05) 100%);
+  --gradient-primary: linear-gradient(135deg, #e85d75 0%, #f87b64 100%);
+  --gradient-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(253, 242, 244, 0.9) 100%);
+  --gradient-purple: linear-gradient(135deg, #b88bc2 0%, #e85d75 100%);
+  --gradient-rose: linear-gradient(135deg, #f87b64 0%, #ffb3a7 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
 
-  /* Phase Colors */
-  --phase-menstrual: #ef4444;
-  --phase-follicular: #22c55e;
-  --phase-ovulation: #f59e0b;
-  --phase-luteal: #8b5cf6;
+  /* Phase Colors - Aesthetic Pastels */
+  --phase-menstrual: #f2849e;   /* Soft Rose */
+  --phase-follicular: #88d4ab;  /* Soft Mint/Sage */
+  --phase-ovulation: #fbc687;   /* Soft Peach/Gold */
+  --phase-luteal: #b5a1e2;      /* Soft Lavender */
 
   /* Typography */
-  --font-heading: 'Inter', -apple-system, sans-serif;
-  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-heading: 'Outfit', -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Spacing */
@@ -87,21 +87,21 @@
   --space-12: 3rem;
   --space-16: 4rem;
 
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
+  /* Border Radius - Softer, friendlier corners */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
   --radius-full: 9999px;
 
   /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 350ms ease;
-  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 200ms ease-out;
+  --transition-base: 300ms ease-out;
+  --transition-slow: 500ms ease-out;
+  --transition-spring: 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* Sidebar */
-  --sidebar-width: 260px;
-  --sidebar-collapsed: 72px;
-  --header-height: 64px;
+  --sidebar-width: 280px;
+  --sidebar-collapsed: 80px;
+  --header-height: 72px;
 }

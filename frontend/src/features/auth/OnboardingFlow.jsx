@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { HiPlus, HiXMark, HiExclamationTriangle } from 'react-icons/hi2';
 import './Auth.css';
 
-const TOTAL_STEPS = 3;
+const TOTAL_STEPS = 2;
 
 export default function OnboardingFlow() {
   const [step, setStep] = useState(1);
@@ -16,10 +16,13 @@ export default function OnboardingFlow() {
     date_of_birth: '',
     weight: '',
     height: '',
-    avg_cycle_length: 28,
-    avg_period_length: 5,
     activity_level: 'moderate',
-    cycle_history: ['', '', ''],  // Start with 3 required fields
+    // Each entry has start_date and end_date
+    cycle_history: [
+      { start_date: '', end_date: '' },
+      { start_date: '', end_date: '' },
+      { start_date: '', end_date: '' },
+    ],
   });
   const { updateProfile } = useAuth();
   const navigate = useNavigate();
@@ -28,63 +31,88 @@ export default function OnboardingFlow() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const addCycleDate = () => {
+  const addCycleEntry = () => {
     setFormData(prev => ({
       ...prev,
-      cycle_history: [...prev.cycle_history, ''],
+      cycle_history: [...prev.cycle_history, { start_date: '', end_date: '' }],
     }));
   };
 
-  const removeCycleDate = (index) => {
-    if (formData.cycle_history.length <= 3) return; // Can't remove below 3
+  const removeCycleEntry = (index) => {
+    if (formData.cycle_history.length <= 3) return;
     setFormData(prev => ({
       ...prev,
       cycle_history: prev.cycle_history.filter((_, i) => i !== index),
     }));
   };
 
-  const updateCycleDate = (index, value) => {
+  const updateCycleEntry = (index, field, value) => {
     setFormData(prev => ({
       ...prev,
-      cycle_history: prev.cycle_history.map((d, i) => i === index ? value : d),
+      cycle_history: prev.cycle_history.map((entry, i) =>
+        i === index ? { ...entry, [field]: value } : entry
+      ),
     }));
   };
 
   const validateStep = () => {
     setError('');
 
-    if (step === 3) {
-      // Validate that all 3 required dates are filled
-      const filledDates = formData.cycle_history.filter(d => d.trim() !== '');
-      if (filledDates.length < 3) {
-        setError('Please enter at least 3 period start dates for accurate predictions.');
+    if (step === 2) {
+      // Validate that all 3 required entries have both dates
+      const filledEntries = formData.cycle_history.filter(
+        e => e.start_date.trim() !== '' && e.end_date.trim() !== ''
+      );
+      if (filledEntries.length < 3) {
+        setError('Please enter start and end dates for at least 3 periods.');
         return false;
       }
 
-      // Validate dates are not in the future
       const today = new Date();
-      for (const dateStr of filledDates) {
-        const d = new Date(dateStr);
-        if (d > today) {
+      const twoYearsAgo = new Date();
+      twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+
+      for (const entry of filledEntries) {
+        const start = new Date(entry.start_date);
+        const end = new Date(entry.end_date);
+
+        if (start > today || end > today) {
           setError('Period dates cannot be in the future.');
+          return false;
+        }
+        if (start < twoYearsAgo) {
+          setError('Please enter period dates from the last 2 years.');
+          return false;
+        }
+        if (end < start) {
+          setError('Period end date must be on or after the start date.');
+          return false;
+        }
+        // Period shouldn't be longer than 15 days
+        const periodDays = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+        if (periodDays > 15) {
+          setError('Period length seems too long (>15 days). Please check your dates.');
           return false;
         }
       }
 
-      // Validate dates are unique
-      const uniqueDates = [...new Set(filledDates)];
-      if (uniqueDates.length !== filledDates.length) {
-        setError('Each period date must be unique.');
+      // Validate start dates are unique
+      const startDates = filledEntries.map(e => e.start_date);
+      const uniqueStarts = [...new Set(startDates)];
+      if (uniqueStarts.length !== startDates.length) {
+        setError('Each period must have a unique start date.');
         return false;
       }
 
-      // Validate dates are in reasonable range (not more than 2 years ago)
-      const twoYearsAgo = new Date();
-      twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
-      for (const dateStr of filledDates) {
-        const d = new Date(dateStr);
-        if (d < twoYearsAgo) {
-          setError('Please enter period dates from the last 2 years.');
+      // Validate periods don't overlap
+      const sorted = [...filledEntries].sort(
+        (a, b) => new Date(a.start_date) - new Date(b.start_date)
+      );
+      for (let i = 1; i < sorted.length; i++) {
+        const prevEnd = new Date(sorted[i - 1].end_date);
+        const currStart = new Date(sorted[i].start_date);
+        if (currStart <= prevEnd) {
+          setError('Period dates should not overlap.');
           return false;
         }
       }
@@ -99,14 +127,17 @@ export default function OnboardingFlow() {
     setLoading(true);
     setError('');
     try {
+      // Filter to only filled entries
+      const filledEntries = formData.cycle_history.filter(
+        e => e.start_date && e.end_date
+      );
+
       const payload = {
-        ...formData,
         weight: formData.weight ? parseFloat(formData.weight) : null,
         height: formData.height ? parseFloat(formData.height) : null,
-        avg_cycle_length: parseInt(formData.avg_cycle_length),
-        avg_period_length: parseInt(formData.avg_period_length),
+        activity_level: formData.activity_level,
         date_of_birth: formData.date_of_birth || null,
-        cycle_history: formData.cycle_history.filter(d => d),
+        cycle_history: filledEntries,
       };
 
       const { data } = await authAPI.onboarding(payload);
@@ -131,9 +162,10 @@ export default function OnboardingFlow() {
     if (step > 1) setStep(step - 1);
   };
 
-  // Sort cycle history dates for display
-  const filledDates = formData.cycle_history.filter(d => d);
-  const sortedDates = [...filledDates].sort((a, b) => new Date(b) - new Date(a));
+  // Compute preview from filled entries
+  const filledEntries = formData.cycle_history.filter(
+    e => e.start_date && e.end_date
+  );
 
   return (
     <div className="onboarding-page">
@@ -233,44 +265,13 @@ export default function OnboardingFlow() {
 
             {step === 2 && (
               <div className="onboarding-form">
-                <h3>🩸 Cycle Information</h3>
-                <div className="input-row">
-                  <div className="input-group">
-                    <label>Average Cycle Length (days)</label>
-                    <input
-                      type="number" name="avg_cycle_length"
-                      className="input-field"
-                      value={formData.avg_cycle_length}
-                      onChange={handleChange}
-                      min={18} max={45}
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Average Period Length (days)</label>
-                    <input
-                      type="number" name="avg_period_length"
-                      className="input-field"
-                      value={formData.avg_period_length}
-                      onChange={handleChange}
-                      min={1} max={10}
-                    />
-                  </div>
-                </div>
-                <div className="cycle-info-note">
-                  <p>💡 <strong>Not sure?</strong> 28 days is the average cycle length. Your period length is how many days you typically bleed.</p>
-                </div>
-              </div>
-            )}
-
-            {step === 3 && (
-              <div className="onboarding-form">
-                <h3>📅 Your Last 3 Period Start Dates</h3>
+                <h3>📅 Your Last 3 Periods</h3>
                 <div className="cycle-history-intro">
-                  <p>Enter the <strong>first day</strong> of your last 3 periods. This is essential for SYNCHER to predict your next period and ovulation window accurately.</p>
+                  <p>Enter the <strong>start date</strong> and <strong>end date</strong> of your last 3 periods. SYNCHER will calculate your cycle length and period duration automatically.</p>
                 </div>
                 <div className="date-inputs">
-                  {formData.cycle_history.map((date, i) => (
-                    <div key={i} className="date-input-row">
+                  {formData.cycle_history.map((entry, i) => (
+                    <div key={i} className="date-entry-card">
                       <div className="date-label">
                         {i < 3 ? (
                           <span className="date-required">
@@ -282,74 +283,111 @@ export default function OnboardingFlow() {
                           <span className="date-optional">➕ Additional Period</span>
                         )}
                       </div>
-                      <div className="date-input-controls">
-                        <input
-                          type="date"
-                          className={`input-field ${i < 3 && !date ? 'input-required' : ''}`}
-                          value={date}
-                          onChange={(e) => updateCycleDate(i, e.target.value)}
-                          max={new Date().toISOString().split('T')[0]}
-                          required={i < 3}
-                        />
+                      <div className="date-range-row">
+                        <div className="date-range-field">
+                          <span className="date-range-label">Start</span>
+                          <input
+                            type="date"
+                            className={`input-field ${i < 3 && !entry.start_date ? 'input-required' : ''}`}
+                            value={entry.start_date}
+                            onChange={(e) => updateCycleEntry(i, 'start_date', e.target.value)}
+                            max={new Date().toISOString().split('T')[0]}
+                            required={i < 3}
+                          />
+                        </div>
+                        <div className="date-range-field">
+                          <span className="date-range-label">End</span>
+                          <input
+                            type="date"
+                            className={`input-field ${i < 3 && !entry.end_date ? 'input-required' : ''}`}
+                            value={entry.end_date}
+                            onChange={(e) => updateCycleEntry(i, 'end_date', e.target.value)}
+                            min={entry.start_date || undefined}
+                            max={new Date().toISOString().split('T')[0]}
+                            required={i < 3}
+                          />
+                        </div>
                         {i >= 3 && (
                           <button
                             className="remove-date-btn"
-                            onClick={() => removeCycleDate(i)}
+                            onClick={() => removeCycleEntry(i)}
                           >
                             <HiXMark />
                           </button>
                         )}
                       </div>
+                      {/* Show computed period length inline */}
+                      {entry.start_date && entry.end_date && (
+                        <div className="period-length-badge">
+                          {Math.round((new Date(entry.end_date) - new Date(entry.start_date)) / (1000 * 60 * 60 * 24)) + 1} day period
+                        </div>
+                      )}
                     </div>
                   ))}
-                  <button className="add-date-btn" onClick={addCycleDate}>
-                    <HiPlus /> Add more period dates (improves accuracy)
+                  <button className="add-date-btn" onClick={addCycleEntry}>
+                    <HiPlus /> Add more periods (improves accuracy)
                   </button>
                 </div>
 
                 {/* Preview section */}
-                {filledDates.length >= 2 && (
-                  <div className="prediction-preview">
-                    <h4>📊 Quick Preview</h4>
-                    {(() => {
-                      const sorted = [...filledDates].sort((a, b) => new Date(a) - new Date(b));
-                      const gaps = [];
-                      for (let i = 1; i < sorted.length; i++) {
-                        const diff = Math.round((new Date(sorted[i]) - new Date(sorted[i-1])) / (1000 * 60 * 60 * 24));
-                        gaps.push(diff);
-                      }
-                      const avgCycle = gaps.length > 0 ? Math.round(gaps.reduce((a, b) => a + b, 0) / gaps.length) : null;
-                      const lastDate = new Date(sorted[sorted.length - 1]);
-                      const nextPeriod = avgCycle ? new Date(lastDate.getTime() + avgCycle * 24 * 60 * 60 * 1000) : null;
-                      const ovulation = nextPeriod ? new Date(nextPeriod.getTime() - 14 * 24 * 60 * 60 * 1000) : null;
-
-                      return (
-                        <div className="preview-stats">
-                          {avgCycle && (
-                            <>
-                              <div className="preview-stat">
-                                <span className="preview-label">Avg Cycle</span>
-                                <span className="preview-value">{avgCycle} days</span>
-                              </div>
-                              <div className="preview-stat">
-                                <span className="preview-label">Next Period</span>
-                                <span className="preview-value">
-                                  {nextPeriod.toLocaleDateString('en', { month: 'short', day: 'numeric' })}
-                                </span>
-                              </div>
-                              <div className="preview-stat">
-                                <span className="preview-label">Ovulation</span>
-                                <span className="preview-value">
-                                  ~{ovulation.toLocaleDateString('en', { month: 'short', day: 'numeric' })}
-                                </span>
-                              </div>
-                            </>
-                          )}
-                        </div>
+                {filledEntries.length >= 2 && (() => {
+                  const sorted = [...filledEntries].sort(
+                    (a, b) => new Date(a.start_date) - new Date(b.start_date)
+                  );
+                  const gaps = [];
+                  const periodLengths = [];
+                  for (let i = 0; i < sorted.length; i++) {
+                    const pLen = Math.round(
+                      (new Date(sorted[i].end_date) - new Date(sorted[i].start_date)) / (1000 * 60 * 60 * 24)
+                    ) + 1;
+                    periodLengths.push(pLen);
+                    if (i > 0) {
+                      const diff = Math.round(
+                        (new Date(sorted[i].start_date) - new Date(sorted[i - 1].start_date)) / (1000 * 60 * 60 * 24)
                       );
-                    })()}
-                  </div>
-                )}
+                      gaps.push(diff);
+                    }
+                  }
+                  const avgCycle = gaps.length > 0
+                    ? Math.round(gaps.reduce((a, b) => a + b, 0) / gaps.length)
+                    : null;
+                  const avgPeriod = Math.round(
+                    periodLengths.reduce((a, b) => a + b, 0) / periodLengths.length
+                  );
+                  const lastStart = new Date(sorted[sorted.length - 1].start_date);
+                  const nextPeriod = avgCycle
+                    ? new Date(lastStart.getTime() + avgCycle * 24 * 60 * 60 * 1000)
+                    : null;
+                  const ovulation = nextPeriod
+                    ? new Date(nextPeriod.getTime() - 14 * 24 * 60 * 60 * 1000)
+                    : null;
+
+                  return (
+                    <div className="prediction-preview">
+                      <h4>📊 Quick Preview</h4>
+                      <div className="preview-stats">
+                        {avgCycle && (
+                          <>
+                            <div className="preview-stat">
+                              <span className="preview-label">Avg Cycle</span>
+                              <span className="preview-value">{avgCycle} days</span>
+                            </div>
+                            <div className="preview-stat">
+                              <span className="preview-label">Avg Period</span>
+                              <span className="preview-value">{avgPeriod} days</span>
+                            </div>
+                            <div className="preview-stat">
+                              <span className="preview-label">Next Period</span>
+                              <span className="preview-value">
+                                {nextPeriod.toLocaleDateString('en', { month: 'short', day: 'numeric' })}
+                              </span>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             )}
           </motion.div>

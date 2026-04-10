@@ -46,20 +46,32 @@ class UserProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at', 'updated_at']
 
 
+class CycleEntrySerializer(serializers.Serializer):
+    """A single period entry with start and end dates."""
+    start_date = serializers.DateField()
+    end_date = serializers.DateField()
+
+    def validate(self, data):
+        if data['end_date'] < data['start_date']:
+            raise serializers.ValidationError('End date must be on or after start date.')
+        period_days = (data['end_date'] - data['start_date']).days + 1
+        if period_days > 15:
+            raise serializers.ValidationError('Period length seems too long (>15 days).')
+        return data
+
+
 class OnboardingSerializer(serializers.Serializer):
-    """Accepts onboarding data: profile + historical cycles."""
+    """Accepts onboarding data: profile + historical cycles with start/end dates."""
     weight = serializers.FloatField(required=False, allow_null=True)
     height = serializers.FloatField(required=False, allow_null=True)
-    avg_cycle_length = serializers.IntegerField(required=False, default=28)
-    avg_period_length = serializers.IntegerField(required=False, default=5)
     activity_level = serializers.ChoiceField(
         choices=['sedentary', 'light', 'moderate', 'active'],
         default='moderate'
     )
     date_of_birth = serializers.DateField(required=False, allow_null=True)
-    # Historical cycle data: list of start dates
+    # Historical cycle data: list of {start_date, end_date} entries
     cycle_history = serializers.ListField(
-        child=serializers.DateField(),
+        child=CycleEntrySerializer(),
         required=False,
         default=list
     )

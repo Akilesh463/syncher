@@ -46,7 +46,7 @@ def get_gemini_response(user_message, user_context="", chat_history=None):
     
     try:
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-2.0-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         
         # Build the full prompt
         full_prompt = SYSTEM_PROMPT

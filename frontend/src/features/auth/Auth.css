@@ -24,7 +24,7 @@
 .shape-1 {
   width: 400px;
   height: 400px;
-  background: rgba(139, 30, 255, 0.15);
+  background: rgba(232, 93, 117, 0.15);
   top: -100px;
   right: -100px;
   animation: float 8s ease-in-out infinite;
@@ -33,7 +33,7 @@
 .shape-2 {
   width: 300px;
   height: 300px;
-  background: rgba(244, 63, 94, 0.1);
+  background: rgba(248, 123, 100, 0.1);
   bottom: -50px;
   left: -50px;
   animation: float 10s ease-in-out infinite reverse;
@@ -42,7 +42,7 @@
 .shape-3 {
   width: 200px;
   height: 200px;
-  background: rgba(139, 30, 255, 0.1);
+  background: rgba(232, 93, 117, 0.1);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -203,7 +203,7 @@
 
 .step-dot.active {
   background: var(--primary-500);
-  box-shadow: 0 0 10px rgba(139, 30, 255, 0.5);
+  box-shadow: 0 0 10px rgba(232, 93, 117, 0.5);
   transform: scale(1.2);
 }
 
@@ -297,7 +297,7 @@
 
 .select-field:focus {
   border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgba(139, 30, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(232, 93, 117, 0.15);
 }
 
 /* Enhanced Onboarding — Cycle History */
@@ -348,12 +348,63 @@
 }
 
 .input-required {
-  border-color: rgba(244, 63, 94, 0.4) !important;
+  border-color: rgba(248, 123, 100, 0.4) !important;
 }
 
 .input-required:focus {
   border-color: var(--accent-500) !important;
-  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(248, 123, 100, 0.15) !important;
+}
+
+.date-entry-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transition: border-color var(--transition-fast);
+}
+
+.date-entry-card:hover {
+  border-color: var(--border-accent);
+}
+
+.date-range-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.date-range-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.date-range-label {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.date-range-field .input-field {
+  font-size: 0.8125rem;
+  padding: var(--space-2) var(--space-3);
+}
+
+.period-length-badge {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-400);
+  background: rgba(232, 93, 117, 0.1);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
 }
 
 .cycle-info-note {
